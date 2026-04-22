@@ -1,0 +1,77 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+}
+
+const { entry } = Astro.props;
+const { title, description, pubDate, updatedDate, category, tags } = entry.data;
+
+const categoryLabel: Record<string, string> = {
+  tensha: '転職エージェント',
+  programming: 'プログラミングスクール',
+  fukugyo: '副業の始め方',
+};
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={`${title} | 副業キャリアナビ`} description={description} ogType="article">
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-gray-500 mb-6 flex items-center gap-1">
+      <a href="/" class="hover:text-primary-600">ホーム</a>
+      <span>›</span>
+      <a href={`/category/${category}`} class="hover:text-primary-600">{categoryLabel[category]}</a>
+      <span>›</span>
+      <span class="text-gray-700 truncate max-w-xs">{title}</span>
+    </nav>
+
+    <!-- Article header -->
+    <div class="mb-8">
+      <span class="inline-block bg-primary-100 text-primary-700 text-xs font-bold px-3 py-1 rounded-full mb-3">
+        {categoryLabel[category]}
+      </span>
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight">{title}</h1>
+      <div class="flex items-center gap-4 text-sm text-gray-500">
+        <time datetime={pubDate.toISOString()}>公開：{formatDate(pubDate)}</time>
+        {updatedDate && (
+          <time datetime={updatedDate.toISOString()}>更新：{formatDate(updatedDate)}</time>
+        )}
+      </div>
+      <p class="mt-4 text-gray-600 bg-gray-100 rounded-lg p-4 text-sm leading-relaxed">{description}</p>
+    </div>
+
+    <!-- Affiliate disclosure -->
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-3 text-xs text-yellow-800 mb-8">
+      ※当記事はアフィリエイト広告を含みます。詳細は<a href="/disclaimer" class="underline">免責事項</a>をご覧ください。
+    </div>
+
+    <!-- Article content -->
+    <div class="prose-custom">
+      <slot />
+    </div>
+
+    <!-- Tags -->
+    {tags.length > 0 && (
+      <div class="mt-10 pt-6 border-t border-gray-200">
+        <p class="text-sm text-gray-500 mb-2">タグ：</p>
+        <div class="flex flex-wrap gap-2">
+          {tags.map(tag => (
+            <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">{tag}</span>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- CTA back to category -->
+    <div class="mt-10 text-center">
+      <a href={`/category/${category}`} class="btn-secondary text-sm">
+        ← {categoryLabel[category]}の記事一覧へ
+      </a>
+    </div>
+  </article>
+</BaseLayout>

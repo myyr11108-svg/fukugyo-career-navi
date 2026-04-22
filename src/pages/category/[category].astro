@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  return [
+    { params: { category: 'tensha' } },
+    { params: { category: 'programming' } },
+    { params: { category: 'fukugyo' } },
+  ];
+}
+
+const { category } = Astro.params;
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter(p => p.data.category === category)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const meta: Record<string, { label: string; desc: string; h1: string }> = {
+  tensha: {
+    label: '転職エージェント',
+    h1: '転職エージェント比較【2026年最新】',
+    desc: '転職エージェントの評判・口コミ・料金を徹底比較。IT・ハイクラス・総合型など目的別におすすめを紹介します。',
+  },
+  programming: {
+    label: 'プログラミングスクール',
+    h1: 'プログラミングスクール比較【2026年版】',
+    desc: '未経験からエンジニアになれるプログラミングスクールを徹底比較。料金・カリキュラム・就職支援で選ぶおすすめスクール。',
+  },
+  fukugyo: {
+    label: '副業の始め方',
+    h1: '副業の始め方【2026年版】会社員向けガイド',
+    desc: '会社員が安全に始められる副業を厳選。月5万円を目指す実践的な副業ガイドを掲載しています。',
+  },
+};
+
+const m = meta[category!] ?? { label: category, h1: category, desc: '' };
+---
+
+<BaseLayout title={`${m.label}の記事一覧 | 副業キャリアナビ`} description={m.desc}>
+  <div class="bg-primary-600 text-white py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-primary-200 text-sm mb-1">
+        <a href="/" class="hover:text-white no-underline">ホーム</a> › {m.label}
+      </p>
+      <h1 class="text-2xl md:text-3xl font-bold">{m.h1}</h1>
+      <p class="text-primary-100 mt-2 text-sm">{m.desc}</p>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    {posts.length === 0 ? (
+      <p class="text-gray-500 text-center py-20">記事は準備中です。</p>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {posts.map(post => (
+          <ArticleCard
+            title={post.data.title}
+            description={post.data.description}
+            slug={post.slug}
+            category={post.data.category}
+            pubDate={post.data.pubDate}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>

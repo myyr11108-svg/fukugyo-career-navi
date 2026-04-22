@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  slug: string;
+  category: string;
+  pubDate: Date;
+}
+
+const { title, description, slug, category, pubDate } = Astro.props;
+const categoryLabel: Record<string, string> = {
+  tensha: '転職エージェント',
+  programming: 'プログラミングスクール',
+  fukugyo: '副業の始め方',
+};
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+<a href={`/blog/${slug}`} class="card block hover:shadow-md transition-shadow group no-underline">
+  <div class="p-5">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-xs font-bold text-primary-600 bg-primary-50 px-2 py-0.5 rounded">
+        {categoryLabel[category] ?? category}
+      </span>
+      <time class="text-xs text-gray-400">{formatDate(pubDate)}</time>
+    </div>
+    <h3 class="text-base font-bold text-gray-800 group-hover:text-primary-600 transition-colors leading-snug mb-2">
+      {title}
+    </h3>
+    <p class="text-sm text-gray-500 line-clamp-2">{description}</p>
+  </div>
+</a>
