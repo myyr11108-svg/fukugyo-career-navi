@@ -1,0 +1,21 @@
+name: Scheduled Publish
+
+on:
+  schedule:
+    # JST 9:00  = UTC 0:00
+    - cron: '0 0 * * *'
+    # JST 12:00 = UTC 3:00
+    - cron: '0 3 * * *'
+    # JST 15:00 = UTC 6:00
+    - cron: '0 6 * * *'
+    # JST 18:00 = UTC 9:00
+    - cron: '0 9 * * *'
+  workflow_dispatch: # 手動実行も可能
+
+jobs:
+  trigger-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages Deploy
+        run: |
+          curl -X POST "${{ secrets.CF_DEPLOY_HOOK }}"
