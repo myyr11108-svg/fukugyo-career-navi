@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { title, description, canonical, ogType = 'website' } = Astro.props;
-const siteUrl = 'https://fukugyo-career-navi.com';
+const siteUrl = 'https://fukugyo-career-navi.myyr1-1108.workers.dev';
 const pageUrl = canonical ?? siteUrl + Astro.url.pathname;
 ---
 
@@ -21,34 +21,33 @@ const pageUrl = canonical ?? siteUrl + Astro.url.pathname;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={pageUrl} />
-    <!-- OGP -->
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:site_name" content="副業キャリアナビ" />
     <meta property="og:locale" content="ja_JP" />
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <!-- Affiliate disclosure (required) -->
     <meta name="robots" content="index, follow" />
   </head>
   <body>
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <!-- Header -->
+    <header class="bg-white sticky top-0 z-50" style="box-shadow: 0 2px 16px rgba(0,0,0,0.08);">
       <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2 no-underline">
-          <span class="text-primary-600 text-2xl font-bold">副業キャリアナビ</span>
+        <a href="/" class="no-underline flex items-center gap-2">
+          <span class="text-2xl font-black" style="background: linear-gradient(135deg, #2563eb, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            副業キャリアナビ
+          </span>
         </a>
-        <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-          <a href="/category/tensha" class="text-gray-600 hover:text-primary-600 no-underline">転職エージェント</a>
-          <a href="/category/programming" class="text-gray-600 hover:text-primary-600 no-underline">プログラミングスクール</a>
-          <a href="/category/fukugyo" class="text-gray-600 hover:text-primary-600 no-underline">副業の始め方</a>
+        <nav class="hidden md:flex items-center gap-1">
+          <a href="/category/tensha" class="no-underline text-sm font-bold text-gray-600 hover:text-primary-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-all">転職エージェント</a>
+          <a href="/category/programming" class="no-underline text-sm font-bold text-gray-600 hover:text-primary-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-all">プログラミングスクール</a>
+          <a href="/category/fukugyo" class="no-underline text-sm font-bold text-gray-600 hover:text-primary-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-all">副業の始め方</a>
         </nav>
-        <button id="menu-btn" class="md:hidden text-gray-600" aria-label="メニュー" aria-expanded="false">
+        <button id="menu-btn" class="md:hidden text-gray-600 p-2 rounded-lg hover:bg-gray-100 transition-colors" aria-label="メニュー" aria-expanded="false">
           <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
@@ -58,14 +57,54 @@ const pageUrl = canonical ?? siteUrl + Astro.url.pathname;
         </button>
       </div>
       <!-- Mobile menu -->
-      <nav id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white">
-        <div class="px-4 py-3 flex flex-col gap-3 text-sm font-medium">
-          <a href="/category/tensha" class="text-gray-600 hover:text-primary-600 no-underline py-1">転職エージェント</a>
-          <a href="/category/programming" class="text-gray-600 hover:text-primary-600 no-underline py-1">プログラミングスクール</a>
-          <a href="/category/fukugyo" class="text-gray-600 hover:text-primary-600 no-underline py-1">副業の始め方</a>
+      <nav id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
+        <div class="px-4 py-3 flex flex-col gap-1">
+          <a href="/category/tensha" class="no-underline text-sm font-bold text-gray-700 hover:text-primary-600 px-3 py-2.5 rounded-lg hover:bg-blue-50 transition-all">💼 転職エージェント</a>
+          <a href="/category/programming" class="no-underline text-sm font-bold text-gray-700 hover:text-primary-600 px-3 py-2.5 rounded-lg hover:bg-blue-50 transition-all">💻 プログラミングスクール</a>
+          <a href="/category/fukugyo" class="no-underline text-sm font-bold text-gray-700 hover:text-primary-600 px-3 py-2.5 rounded-lg hover:bg-blue-50 transition-all">📈 副業の始め方</a>
         </div>
       </nav>
     </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 text-gray-300" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+      <div class="max-w-6xl mx-auto px-4 py-12">
+        <div class="mb-8">
+          <span class="text-2xl font-black" style="background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            副業キャリアナビ
+          </span>
+          <p class="text-sm text-gray-400 mt-2">転職・副業・スキルアップで人生をアップデートするメディア</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+          <div>
+            <p class="text-white font-bold mb-4 text-sm uppercase tracking-wider">カテゴリ</p>
+            <ul class="space-y-2 text-sm">
+              <li><a href="/category/tensha" class="no-underline text-gray-400 hover:text-white transition-colors">転職エージェント</a></li>
+              <li><a href="/category/programming" class="no-underline text-gray-400 hover:text-white transition-colors">プログラミングスクール</a></li>
+              <li><a href="/category/fukugyo" class="no-underline text-gray-400 hover:text-white transition-colors">副業の始め方</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-white font-bold mb-4 text-sm uppercase tracking-wider">サイト情報</p>
+            <ul class="space-y-2 text-sm">
+              <li><a href="/privacy" class="no-underline text-gray-400 hover:text-white transition-colors">プライバシーポリシー</a></li>
+              <li><a href="/disclaimer" class="no-underline text-gray-400 hover:text-white transition-colors">免責事項</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-white font-bold mb-4 text-sm uppercase tracking-wider">お知らせ</p>
+            <p class="text-xs text-gray-400 leading-relaxed">当サイトはアフィリエイト広告（A8.net・もしもアフィリエイト等）を利用しています。</p>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 pt-6 text-xs text-center text-gray-500">
+          © 2026 副業キャリアナビ All Rights Reserved.
+        </div>
+      </div>
+    </footer>
 
     <script>
       const btn = document.getElementById('menu-btn');
@@ -80,40 +119,5 @@ const pageUrl = canonical ?? siteUrl + Astro.url.pathname;
         btn?.setAttribute('aria-expanded', String(!isOpen));
       });
     </script>
-
-    <main>
-      <slot />
-    </main>
-
-    <footer class="bg-gray-800 text-gray-300 mt-16">
-      <div class="max-w-6xl mx-auto px-4 py-10">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <div>
-            <p class="text-white font-bold mb-3">副業キャリアナビ</p>
-            <p class="text-sm">転職・副業・スキルアップに関する情報を発信するメディアです。</p>
-          </div>
-          <div>
-            <p class="text-white font-bold mb-3">カテゴリ</p>
-            <ul class="space-y-1 text-sm">
-              <li><a href="/category/tensha" class="hover:text-white no-underline">転職エージェント</a></li>
-              <li><a href="/category/programming" class="hover:text-white no-underline">プログラミングスクール</a></li>
-              <li><a href="/category/fukugyo" class="hover:text-white no-underline">副業の始め方</a></li>
-            </ul>
-          </div>
-          <div>
-            <p class="text-white font-bold mb-3">サイト情報</p>
-            <ul class="space-y-1 text-sm">
-              <li><a href="/about" class="hover:text-white no-underline">このサイトについて</a></li>
-              <li><a href="/privacy" class="hover:text-white no-underline">プライバシーポリシー</a></li>
-              <li><a href="/disclaimer" class="hover:text-white no-underline">免責事項</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="border-t border-gray-700 pt-6 text-sm text-center">
-          <p class="mb-2">当サイトはアフィリエイト広告を利用しています。</p>
-          <p>© 2026 副業キャリアナビ All Rights Reserved.</p>
-        </div>
-      </div>
-    </footer>
   </body>
 </html>

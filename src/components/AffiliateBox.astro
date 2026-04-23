@@ -10,32 +10,43 @@ interface Props {
 }
 
 const { rank, name, summary, pros, cta, url, badge } = Astro.props;
-const rankColors = ['bg-yellow-400', 'bg-gray-300', 'bg-amber-600'];
-const rankColor = rank ? (rankColors[rank - 1] ?? 'bg-primary-500') : 'bg-primary-500';
+
+const rankConfig = [
+  { bg: 'linear-gradient(135deg, #f59e0b, #d97706)', label: '🥇 1位' },
+  { bg: 'linear-gradient(135deg, #94a3b8, #64748b)', label: '🥈 2位' },
+  { bg: 'linear-gradient(135deg, #cd7c4a, #a0522d)', label: '🥉 3位' },
+];
+const rc = rank ? (rankConfig[rank - 1] ?? { bg: 'linear-gradient(135deg, #2563eb, #1d4ed8)', label: `${rank}位` }) : null;
 ---
 
 <div class="affiliate-box">
   <div class="flex items-start gap-4">
-    {rank && (
-      <div class={`ranking-badge ${rankColor} shrink-0 mt-1`}>{rank}</div>
+    {rc && (
+      <div class="shrink-0 flex flex-col items-center gap-0.5 mt-1">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shadow-lg" style={`background: ${rc.bg}`}>
+          {rank}
+        </div>
+        <span class="text-xs font-bold text-gray-500">{rank}位</span>
+      </div>
     )}
-    <div class="flex-1">
-      <div class="flex items-center gap-2 mb-1 flex-wrap">
-        <h4 class="text-lg font-bold text-gray-900">{name}</h4>
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-2 flex-wrap">
+        <h4 class="text-lg font-black text-gray-900">{name}</h4>
         {badge && (
-          <span class="text-xs bg-accent-500 text-white font-bold px-2 py-0.5 rounded">{badge}</span>
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded-full text-white" style="background: linear-gradient(90deg, #f97316, #ea580c);">{badge}</span>
         )}
       </div>
-      <p class="text-sm text-gray-700 mb-3">{summary}</p>
-      <ul class="space-y-1 mb-4">
+      <p class="text-sm text-gray-700 mb-3 leading-relaxed">{summary}</p>
+      <ul class="space-y-1.5 mb-5">
         {pros.map(p => (
           <li class="text-sm text-gray-700 flex items-start gap-2">
-            <span class="text-green-500 font-bold shrink-0">✓</span>{p}
+            <span class="shrink-0 w-5 h-5 rounded-full bg-blue-100 text-primary-600 flex items-center justify-center text-xs font-bold">✓</span>
+            <span>{p}</span>
           </li>
         ))}
       </ul>
-      <a href={url} target="_blank" rel="nofollow noopener noreferrer" class="btn-primary text-sm">
-        {cta}
+      <a href={url} target="_blank" rel="nofollow noopener noreferrer" class="btn-primary no-underline">
+        {cta} →
       </a>
     </div>
   </div>

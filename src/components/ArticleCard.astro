@@ -8,26 +8,33 @@ interface Props {
 }
 
 const { title, description, slug, category, pubDate } = Astro.props;
-const categoryLabel: Record<string, string> = {
-  tensha: '転職エージェント',
-  programming: 'プログラミングスクール',
-  fukugyo: '副業の始め方',
+
+const categoryConfig: Record<string, { label: string; color: string; badgeClass: string }> = {
+  tensha:      { label: '転職エージェント',     color: '#2563eb', badgeClass: 'badge-tensha' },
+  programming: { label: 'プログラミングスクール', color: '#16a34a', badgeClass: 'badge-programming' },
+  fukugyo:     { label: '副業の始め方',         color: '#7c3aed', badgeClass: 'badge-fukugyo' },
 };
+const cfg = categoryConfig[category] ?? { label: category, color: '#6b7280', badgeClass: '' };
+
 const formatDate = (d: Date) =>
   d.toLocaleDateString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric' });
 ---
 
-<a href={`/blog/${slug}`} class="card block hover:shadow-md transition-shadow group no-underline">
+<a href={`/blog/${slug}`} class="card block group no-underline">
+  <!-- カテゴリカラーストライプ -->
+  <div class="h-1.5 w-full" style={`background: linear-gradient(90deg, ${cfg.color}, ${cfg.color}99)`}></div>
   <div class="p-5">
-    <div class="flex items-center justify-between mb-2">
-      <span class="text-xs font-bold text-primary-600 bg-primary-50 px-2 py-0.5 rounded">
-        {categoryLabel[category] ?? category}
-      </span>
+    <div class="flex items-center justify-between mb-3">
+      <span class={cfg.badgeClass}>{cfg.label}</span>
       <time class="text-xs text-gray-400">{formatDate(pubDate)}</time>
     </div>
-    <h3 class="text-base font-bold text-gray-800 group-hover:text-primary-600 transition-colors leading-snug mb-2">
+    <h3 class="text-sm font-bold text-gray-800 group-hover:text-primary-600 transition-colors leading-snug mb-2 line-clamp-2">
       {title}
     </h3>
-    <p class="text-sm text-gray-500 line-clamp-2">{description}</p>
+    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">{description}</p>
+    <div class="flex items-center text-xs font-bold text-primary-600 group-hover:gap-2 transition-all">
+      <span>続きを読む</span>
+      <span class="ml-1 transition-transform group-hover:translate-x-1">→</span>
+    </div>
   </div>
 </a>
