@@ -48,14 +48,38 @@ const pageUrl = canonical ?? siteUrl + Astro.url.pathname;
           <a href="/category/programming" class="text-gray-600 hover:text-primary-600 no-underline">プログラミングスクール</a>
           <a href="/category/fukugyo" class="text-gray-600 hover:text-primary-600 no-underline">副業の始め方</a>
         </nav>
-        <!-- Mobile menu toggle placeholder -->
-        <button class="md:hidden text-gray-600" aria-label="メニュー">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button id="menu-btn" class="md:hidden text-gray-600" aria-label="メニュー" aria-expanded="false">
+          <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
       </div>
+      <!-- Mobile menu -->
+      <nav id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white">
+        <div class="px-4 py-3 flex flex-col gap-3 text-sm font-medium">
+          <a href="/category/tensha" class="text-gray-600 hover:text-primary-600 no-underline py-1">転職エージェント</a>
+          <a href="/category/programming" class="text-gray-600 hover:text-primary-600 no-underline py-1">プログラミングスクール</a>
+          <a href="/category/fukugyo" class="text-gray-600 hover:text-primary-600 no-underline py-1">副業の始め方</a>
+        </div>
+      </nav>
     </header>
+
+    <script>
+      const btn = document.getElementById('menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('icon-open');
+      const iconClose = document.getElementById('icon-close');
+      btn?.addEventListener('click', () => {
+        const isOpen = !menu?.classList.contains('hidden');
+        menu?.classList.toggle('hidden', isOpen);
+        iconOpen?.classList.toggle('hidden', !isOpen);
+        iconClose?.classList.toggle('hidden', isOpen);
+        btn?.setAttribute('aria-expanded', String(!isOpen));
+      });
+    </script>
 
     <main>
       <slot />
