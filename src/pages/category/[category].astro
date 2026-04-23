@@ -8,6 +8,7 @@ export async function getStaticPaths() {
     { params: { category: 'tensha' } },
     { params: { category: 'programming' } },
     { params: { category: 'fukugyo' } },
+    { params: { category: 'ai' } },
   ];
 }
 
@@ -17,35 +18,44 @@ const posts = allPosts
   .filter(p => p.data.category === category)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const meta: Record<string, { label: string; desc: string; h1: string }> = {
+const meta: Record<string, { label: string; desc: string; h1: string; gradient: string }> = {
   tensha: {
     label: '転職エージェント',
     h1: '転職エージェント比較【2026年最新】',
     desc: '転職エージェントの評判・口コミ・料金を徹底比較。IT・ハイクラス・総合型など目的別におすすめを紹介します。',
+    gradient: 'linear-gradient(135deg, #1e40af 0%, #2563eb 100%)',
   },
   programming: {
     label: 'プログラミングスクール',
     h1: 'プログラミングスクール比較【2026年版】',
     desc: '未経験からエンジニアになれるプログラミングスクールを徹底比較。料金・カリキュラム・就職支援で選ぶおすすめスクール。',
+    gradient: 'linear-gradient(135deg, #15803d 0%, #16a34a 100%)',
   },
   fukugyo: {
     label: '副業の始め方',
     h1: '副業の始め方【2026年版】会社員向けガイド',
     desc: '会社員が安全に始められる副業を厳選。月5万円を目指す実践的な副業ガイドを掲載しています。',
+    gradient: 'linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%)',
+  },
+  ai: {
+    label: 'AI活用・副業',
+    h1: 'AI活用・副業ガイド【2026年最新】',
+    desc: 'AIツールを使った副業・仕事効率化・AIエンジニア転職まで。最新のAI活用術を徹底解説します。',
+    gradient: 'linear-gradient(135deg, #0e7490 0%, #0891b2 100%)',
   },
 };
 
-const m = meta[category!] ?? { label: category, h1: category, desc: '' };
+const m = meta[category!] ?? { label: category, h1: category, desc: '', gradient: 'linear-gradient(135deg, #374151, #1f2937)' };
 ---
 
 <BaseLayout title={`${m.label}の記事一覧 | 副業キャリアナビ`} description={m.desc}>
-  <div class="bg-primary-600 text-white py-10 px-4">
+  <div class="text-white py-12 px-4" style={`background: ${m.gradient}`}>
     <div class="max-w-4xl mx-auto">
-      <p class="text-primary-200 text-sm mb-1">
-        <a href="/" class="hover:text-white no-underline">ホーム</a> › {m.label}
+      <p class="text-white text-opacity-70 text-sm mb-1">
+        <a href="/" class="hover:text-white no-underline opacity-70 hover:opacity-100">ホーム</a> › {m.label}
       </p>
-      <h1 class="text-2xl md:text-3xl font-bold">{m.h1}</h1>
-      <p class="text-primary-100 mt-2 text-sm">{m.desc}</p>
+      <h1 class="text-2xl md:text-3xl font-black mt-1">{m.h1}</h1>
+      <p class="text-white opacity-80 mt-2 text-sm leading-relaxed">{m.desc}</p>
     </div>
   </div>
 

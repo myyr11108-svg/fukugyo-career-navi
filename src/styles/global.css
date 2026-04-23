@@ -139,4 +139,9 @@
     background: #f3e8ff;
     color: #7c3aed;
   }
+  .badge-ai {
+    @apply text-xs font-bold px-2.5 py-1 rounded-full;
+    background: #cffafe;
+    color: #0e7490;
+  }
 }
